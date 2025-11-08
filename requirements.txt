@@ -30,7 +30,9 @@ qdrant-client==1.7.0
 # pytest-mock==3.11.1  # test extras require
 # open-interpreter==0.1.7; python_version>"3.9" # Conflict with openai 1.x
 ta==0.10.2
-semantic-kernel
+# semantic-kernel==1.32.0  # REMOVED - Only needed for SkAgent/SkSearchEngine (not used in our project)
+                            # Removal enables pydantic 2.11+ compatibility for llama-index-alloydb-pg support
+                            # Note: SearchEngine class still works without this dependency
 wrapt==1.15.0
 #aiohttp_jinja2
 # azure-cognitiveservices-speech~=1.31.0 # Used by metagpt/tools/azure_tts.py
