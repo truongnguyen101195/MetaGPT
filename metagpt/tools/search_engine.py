@@ -9,11 +9,24 @@ import importlib
 from typing import Callable, Coroutine, Literal, Optional, Union, overload
 
 from pydantic import BaseModel, ConfigDict, model_validator
-from semantic_kernel.skill_definition import sk_function
 
 from metagpt.configs.search_config import SearchConfig
 from metagpt.logs import logger
 from metagpt.tools import SearchEngineType
+
+# Make semantic_kernel optional - only needed for SkSearchEngine
+# Note: semantic-kernel 1.x removed the skill_definition module
+try:
+    from semantic_kernel.skill_definition import sk_function
+    HAS_SEMANTIC_KERNEL = True
+except (ImportError, ModuleNotFoundError):
+    HAS_SEMANTIC_KERNEL = False
+    # Create a dummy decorator when semantic_kernel is not available or incompatible
+    def sk_function(description=None, name=None, input_description=None):
+        """Dummy decorator when semantic_kernel is not installed or incompatible"""
+        def decorator(func):
+            return func
+        return decorator
 
 
 class SkSearchEngine:
